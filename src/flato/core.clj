@@ -14,11 +14,11 @@
                  coll)]
     (reduce
      (fn [accum [idx m]]
-       (merge accum (flat m (conj p (index-to-str idx)))))
+       (merge accum (deflate m (conj p (index-to-str idx)))))
      {}
      indexed)))
 
-(defn flat
+(defn deflate
   "Flats a nested map into a one level deep."
   ([m] (flat m []))
   ([m p]
@@ -26,7 +26,7 @@
     (fn [accum [k v]]
       (cond
         (map? v)
-        (merge accum (flat v (conj p k)))
+        (merge accum (deflate v (conj p k)))
         
         (and (sequential? v)
              (map? (first v)))
