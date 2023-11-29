@@ -36,3 +36,23 @@
         (assoc accum (join-keys (conj p k)) v)))
     {}
     m)))
+
+(defn- inflat-with-keys [ks v]
+  (reduce
+   (fn [accum k]
+     {(keyword k) accum})
+   {(keyword (last ks)) v}
+   (drop-last ks)))
+
+(defn inflate
+  "Creates a nested map from a flat one with delimited keys."
+  [m]
+  (reduce
+   (fn [accum [k v]]
+     (if (string/includes? k "-")
+       (merge-with into accum
+                   (let [ks (string/split (name k) #"-")]
+                     (inflat-with-keys ks v)))
+       (assoc accum k v)))
+   {}
+   m))
