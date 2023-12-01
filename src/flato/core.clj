@@ -7,7 +7,7 @@
 (defn- join-keys [kys]
   (keyword (string/join "-" (map name kys))))
 
-(defn- flat-seq [coll p]
+(defn- deflate-seq [coll p]
   (let [indexed (map-indexed
                  (fn [idx item]
                    [idx item])
@@ -31,14 +31,14 @@
         
         (and (sequential? v)
              (map? (first v)))
-        (merge accum (flat-seq v (conj p k)))
+        (merge accum (deflate-seq v (conj p k)))
         
         :else
         (assoc accum (join-keys (conj p k)) v)))
     {}
     m)))
 
-(defn- inflat-with-keys [ks v]
+(defn- inflate-w-keys [ks v]
   (let [rev-ks (reverse ks)]
     (reduce
      (fn [accum k]
@@ -55,7 +55,7 @@
      (if (string/includes? k "-")
        (merge-with into accum
                    (let [ks (string/split (name k) #"-")]
-                     (inflat-with-keys ks v)))
+                     (inflate-w-keys ks v)))
        (assoc accum k v)))
    {}
    m))
