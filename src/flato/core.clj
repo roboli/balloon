@@ -39,11 +39,12 @@
     m)))
 
 (defn- inflat-with-keys [ks v]
-  (reduce
-   (fn [accum k]
-     {(keyword k) accum})
-   {(keyword (last ks)) v}
-   (drop-last ks)))
+  (let [rev-ks (reverse ks)]
+    (reduce
+     (fn [accum k]
+       {(keyword k) accum})
+     {(keyword (first rev-ks)) v}
+     (drop 1 rev-ks))))
 
 (defn inflate
   "Creates a nested map from a flat one with delimited keys."
