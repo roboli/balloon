@@ -20,8 +20,9 @@
 
 (defn deflate
   "Flats a nested map into a one level deep."
-  ([m] (flat m []))
+  ([m] (deflate m []))
   ([m p]
+   {:pre [(map? m)]}
    (reduce
     (fn [accum [k v]]
       (cond
@@ -47,6 +48,7 @@
 (defn inflate
   "Creates a nested map from a flat one with delimited keys."
   [m]
+  {:pre [(map? m)]}
   (reduce
    (fn [accum [k v]]
      (if (string/includes? k "-")
