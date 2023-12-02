@@ -1,6 +1,10 @@
 (ns flato.core
   (:require [clojure.string :as string]))
 
+;;
+;; deflate
+;;
+
 (defn- index-to-str [idx]
   (keyword (str idx)))
 
@@ -38,24 +42,43 @@
     {}
     m)))
 
-(defn- inflate-w-keys [ks v]
-  (let [rev-ks (reverse ks)]
-    (reduce
-     (fn [accum k]
-       {(keyword k) accum})
-     {(keyword (first rev-ks)) v}
-     (drop 1 rev-ks))))
+;;
+;; inflate
+;;
+
+(defn- deflated-key->keys [k]
+  (map keyword (string/split (name k) #"-")))
+
+(defn- deflated-key? [k] (string/includes? k "-"))
+
+(defn- keys-in-map? [ks m]
+  (not (= 'not-found (get-in m ks 'not-found))))
+
+(defn- inflate-map [ks v nm]
+  (if (keys-in-map? ks nm)
+    (assoc-in nm ks (merge (get-in nm ks) v))
+    (assoc-in nm ks v)))
 
 (defn inflate
-  "Creates a nested map from a flat one with delimited keys."
-  [m]
-  {:pre [(map? m)]}
-  (reduce
-   (fn [accum [k v]]
-     (if (string/includes? k "-")
-       (merge-with into accum
-                   (let [ks (string/split (name k) #"-")]
-                     (inflate-w-keys ks v)))
-       (assoc accum k v)))
-   {}
-   m))
+  "Flats a nested map into a one level deep."
+  ([m]
+   {:pre [(map? m)]}
+   (reduce
+    (fn [accum [k v]]
+      (cond
+
+        (deflated-key? k)
+        (let [ks (deflated-key->keys k)]
+          (inflate-map (drop-last ks)
+                       {(last ks) (if (map? v)
+                                    (inflate v)
+                                    v)}
+                       accum))
+
+        (map? v)
+        (assoc accum k (inflate v))
+
+        :else
+        (assoc accum k v)))
+    {}
+    m)))
