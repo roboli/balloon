@@ -19,8 +19,11 @@
                    [idx item])
                  coll)]
     (reduce
-     (fn [accum [idx m]]
-       (merge accum (deflate m (conj p (index-to-key idx)))))
+     (fn [accum [idx v]]
+       (let [new-k (index-to-key idx)]
+         (if (map? v)
+           (merge accum (deflate v (conj p new-k)))
+           (merge accum (deflate {new-k v} p)))))
      {}
      indexed)))
 
@@ -35,8 +38,7 @@
         (map? v)
         (merge accum (deflate v (conj p k)))
         
-        (and (sequential? v)
-             (map? (first v)))
+        (sequential? v)
         (merge accum (deflate-seq v (conj p k)))
         
         :else
