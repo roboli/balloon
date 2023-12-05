@@ -7,7 +7,7 @@
 
 (declare deflate)
 
-(defn- index-to-str [idx]
+(defn- index-to-key [idx]
   (keyword (str idx)))
 
 (defn- join-keys [kys]
@@ -20,7 +20,7 @@
                  coll)]
     (reduce
      (fn [accum [idx m]]
-       (merge accum (deflate m (conj p (index-to-str idx)))))
+       (merge accum (deflate m (conj p (index-to-key idx)))))
      {}
      indexed)))
 
