@@ -5,6 +5,8 @@
 ;; deflate
 ;;
 
+(declare deflate)
+
 (defn- index-to-str [idx]
   (keyword (str idx)))
 
@@ -46,39 +48,46 @@
 ;; inflate
 ;;
 
-(defn- deflated-key->keys [k]
-  (map keyword (string/split (name k) #"-")))
-
 (defn- deflated-key? [k] (string/includes? k "-"))
+
+(defn- deflated-key->keys [k]
+  (vec (map keyword (string/split (name k) #"-"))))
 
 (defn- keys-in-map? [ks m]
   (not (= 'not-found (get-in m ks 'not-found))))
 
+(defn keys-in-map [ks m]
+  (let [res (reduce (fn [{:keys [ksm vls] :as acc} k]
+                      (let [ks (conj ksm k)]
+                        (if (keys-in-map? ks m)
+                          {:ksm ks
+                           :vls (get-in m ks)}
+                          (reduced acc))))
+                    {:ksm []
+                     :vls {}}
+                    ks)]
+    [(:ksm res) (:vls res)]))
+
 (defn- inflate-map [ks v nm]
-  (if (keys-in-map? ks nm)
-    (assoc-in nm ks (merge (get-in nm ks) v))
-    (assoc-in nm ks v)))
+  (let [[keys-found val-found] (keys-in-map ks nm)]
+    (if (seq keys-found)
+      (let [rest-ks (subvec ks (count keys-found))]
+        (if (and (map? val-found)
+                 (seq rest-ks))
+          (assoc-in nm keys-found (merge-with into val-found (assoc-in {} rest-ks v)))
+          (assoc-in nm keys-found v)))
+      (assoc-in nm ks v))))
 
 (defn inflate
-  "Flats a nested map into a one level deep."
-  ([m]
-   {:pre [(map? m)]}
-   (reduce
-    (fn [accum [k v]]
-      (cond
-
-        (deflated-key? k)
-        (let [ks (deflated-key->keys k)]
-          (inflate-map (drop-last ks)
-                       {(last ks) (if (map? v)
-                                    (inflate v)
-                                    v)}
-                       accum))
-
-        (map? v)
-        (assoc accum k (inflate v))
-
-        :else
-        (assoc accum k v)))
-    {}
-    m)))
+  "Converts a one level deep flat map into a nested one."
+  ([nm]
+   {:pre [(map? nm)]}
+   (let [m (deflate nm)]
+     (reduce
+      (fn [accum [k v]]
+        (if (deflated-key? k)
+          (let [ks (deflated-key->keys k)]
+            (inflate-map ks v accum))
+          (assoc accum k v)))
+      {}
+      m))))
