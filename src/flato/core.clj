@@ -99,12 +99,11 @@
 
 (defn- inflate-map [path v nm]
   (let [[path-found val-found] (path-in-map path nm)]
-    (if (seq path-found)
+    (if (and (seq path-found)
+             (not= path-found path)
+             (map? val-found))
       (let [rest-path (subvec path (count path-found))]
-        (if (and (map? val-found)
-                 (seq rest-path))
-          (assoc-in nm path-found (merge-with into val-found (assoc-inth {} rest-path v)))
-          (assoc-inth nm path v)))
+        (assoc-in nm path-found (merge-with into val-found (assoc-inth {} rest-path v))))
       (assoc-inth nm path v))))
 
 (defn inflate
