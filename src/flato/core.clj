@@ -104,8 +104,8 @@
         (if (and (map? val-found)
                  (seq rest-path))
           (assoc-in nm path-found (merge-with into val-found (assoc-inth {} rest-path v)))
-          (assoc-in nm path v)))
-      (assoc-in nm path v))))
+          (assoc-inth nm path v)))
+      (assoc-inth nm path v))))
 
 (defn inflate
   "Converts a one level deep flat map into a nested one."
