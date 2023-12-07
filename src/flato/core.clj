@@ -52,33 +52,60 @@
 
 (defn- deflated-key? [k] (string/includes? k "-"))
 
-(defn- deflated-key->keys [k]
-  (vec (map keyword (string/split (name k) #"-"))))
+(defn- parseInt? [s]
+  (try
+    (Integer/parseInt s)
+    true
+    (catch Exception e
+      false)))
 
-(defn- keys-in-map? [ks m]
+(defn- deflated-key->path [k]
+  (vec (map
+        (fn [s]
+          (if (parseInt? s)
+            (Integer/parseInt s)
+            (keyword s)))
+        (string/split (name k) #"-"))))
+
+(defn- path-in-map? [ks m]
   (not (= 'not-found (get-in m ks 'not-found))))
 
-(defn keys-in-map [ks m]
+(defn path-in-map [path m]
   (let [res (reduce (fn [{:keys [ksm vls] :as acc} k]
                       (let [ks (conj ksm k)]
-                        (if (keys-in-map? ks m)
+                        (if (path-in-map? ks m)
                           {:ksm ks
                            :vls (get-in m ks)}
                           (reduced acc))))
                     {:ksm []
                      :vls {}}
-                    ks)]
+                    path)]
     [(:ksm res) (:vls res)]))
 
-(defn- inflate-map [ks v nm]
-  (let [[keys-found val-found] (keys-in-map ks nm)]
-    (if (seq keys-found)
-      (let [rest-ks (subvec ks (count keys-found))]
+(defn- assoc-inth [form path v]
+  (let [result (reduce
+                (fn [{:keys [cur frm] :as acc} k]
+                  (if (keyword? k)
+                    (update acc :cur conj k)
+                    (if (and (nil? (get-in frm cur))
+                             (= 0 k))
+                      {:cur (conj cur k)
+                       :frm (assoc-in frm cur [])}
+                      (update acc :cur conj k))))
+                {:cur []
+                 :frm form}
+                path)]
+    (assoc-in (:frm result) (:cur result) v)))
+
+(defn- inflate-map [path v nm]
+  (let [[path-found val-found] (path-in-map path nm)]
+    (if (seq path-found)
+      (let [rest-path (subvec path (count path-found))]
         (if (and (map? val-found)
-                 (seq rest-ks))
-          (assoc-in nm keys-found (merge-with into val-found (assoc-in {} rest-ks v)))
-          (assoc-in nm keys-found v)))
-      (assoc-in nm ks v))))
+                 (seq rest-path))
+          (assoc-in nm path-found (merge-with into val-found (assoc-inth {} rest-path v)))
+          (assoc-inth nm path-found v)))
+      (assoc-inth nm path v))))
 
 (defn inflate
   "Converts a one level deep flat map into a nested one."
@@ -88,8 +115,10 @@
      (reduce
       (fn [accum [k v]]
         (if (deflated-key? k)
-          (let [ks (deflated-key->keys k)]
-            (inflate-map ks v accum))
+          (let [path (deflated-key->path k)]
+            (inflate-map path v accum))
           (assoc accum k v)))
       {}
       m))))
+
+
