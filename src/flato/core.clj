@@ -10,7 +10,7 @@
 (defn- index->key [index]
   (keyword (str index)))
 
-(defn- join-keys [ks]
+(defn- keys->deflated-key [ks]
   (keyword (string/join "-" (map name ks))))
 
 (defn- deflate-seq [coll ks]
@@ -42,7 +42,7 @@
         (merge accum (deflate-seq v (conj ks k)))
         
         :else
-        (assoc accum (join-keys (conj ks k)) v)))
+        (assoc accum (keys->deflated-key (conj ks k)) v)))
     {}
     m)))
 
