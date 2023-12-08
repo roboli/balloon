@@ -7,42 +7,42 @@
 
 (declare deflate)
 
-(defn- index-to-key [idx]
-  (keyword (str idx)))
+(defn- index->key [index]
+  (keyword (str index)))
 
-(defn- join-keys [kys]
-  (keyword (string/join "-" (map name kys))))
+(defn- join-keys [ks]
+  (keyword (string/join "-" (map name ks))))
 
-(defn- deflate-seq [coll p]
+(defn- deflate-seq [coll ks]
   (let [indexed (map-indexed
-                 (fn [idx item]
-                   [idx item])
+                 (fn [index item]
+                   [index item])
                  coll)]
     (reduce
-     (fn [accum [idx v]]
-       (let [new-k (index-to-key idx)]
+     (fn [accum [index v]]
+       (let [new-k (index->key index)]
          (if (map? v)
-           (merge accum (deflate v (conj p new-k)))
-           (merge accum (deflate {new-k v} p)))))
+           (merge accum (deflate v (conj ks new-k)))
+           (merge accum (deflate {new-k v} ks)))))
      {}
      indexed)))
 
 (defn deflate
   "Flats a nested map into a one level deep."
   ([m] (deflate m []))
-  ([m p]
+  ([m ks]
    {:pre [(map? m)]}
    (reduce
     (fn [accum [k v]]
       (cond
         (map? v)
-        (merge accum (deflate v (conj p k)))
+        (merge accum (deflate v (conj ks k)))
         
         (sequential? v)
-        (merge accum (deflate-seq v (conj p k)))
+        (merge accum (deflate-seq v (conj ks k)))
         
         :else
-        (assoc accum (join-keys (conj p k)) v)))
+        (assoc accum (join-keys (conj ks k)) v)))
     {}
     m)))
 
