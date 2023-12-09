@@ -67,44 +67,44 @@
             (keyword s)))
         (string/split (name k) #"-"))))
 
-(defn- path-in-map? [ks m]
-  (not (= 'not-found (get-in m ks 'not-found))))
+(defn- path-in-map? [path m]
+  (not (= 'not-found (get-in m path 'not-found))))
 
-(defn path-in-map [path m]
-  (let [res (reduce (fn [{:keys [ksm vls] :as acc} k]
-                      (let [ks (conj ksm k)]
-                        (if (path-in-map? ks m)
-                          {:ksm ks
-                           :vls (get-in m ks)}
-                          (reduced acc))))
-                    {:ksm []
-                     :vls {}}
-                    path)]
-    [(:ksm res) (:vls res)]))
+(defn- path-in-map [path m]
+  (let [result (reduce (fn [{:keys [end-path value] :as acc} k]
+                         (let [ks (conj end-path k)]
+                           (if (path-in-map? ks m)
+                             {:end-path ks
+                              :value (get-in m ks)}
+                             (reduced acc))))
+                       {:end-path []
+                        :value {}}
+                       path)]
+    [(:end-path result) (:value result)]))
 
 (defn- assoc-inth [form path v]
   (let [result (reduce
-                (fn [{:keys [cur frm] :as acc} k]
+                (fn [{:keys [end-path end-form] :as acc} k]
                   (if (keyword? k)
-                    (update acc :cur conj k)
-                    (if (and (nil? (get-in frm cur))
+                    (update acc :end-path conj k)
+                    (if (and (nil? (get-in end-form end-path))
                              (= 0 k))
-                      {:cur (conj cur k)
-                       :frm (assoc-in frm cur [])}
-                      (update acc :cur conj k))))
-                {:cur []
-                 :frm form}
+                      {:end-path (conj end-path k)
+                       :end-form (assoc-in end-form end-path [])}
+                      (update acc :end-path conj k))))
+                {:end-path []
+                 :end-form form}
                 path)]
-    (assoc-in (:frm result) (:cur result) v)))
+    (assoc-in (:end-form result) (:end-path result) v)))
 
-(defn- inflate-map [path v nm]
-  (let [[path-found val-found] (path-in-map path nm)]
+(defn- inflate-map [path v acc]
+  (let [[path-found val-found] (path-in-map path acc)]
     (if (and (seq path-found)
              (not= path-found path)
              (map? val-found))
       (let [rest-path (subvec path (count path-found))]
-        (assoc-in nm path-found (merge-with into val-found (assoc-inth {} rest-path v))))
-      (assoc-inth nm path v))))
+        (assoc-in acc path-found (merge-with into val-found (assoc-inth {} rest-path v))))
+      (assoc-inth acc path v))))
 
 (defn inflate
   "Converts a one level deep flat map into a nested one."
