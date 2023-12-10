@@ -54,7 +54,9 @@
 ;; inflate
 ;;
 
-(defn- deflated-key? [k] (string/includes? k "-"))
+(defn- deflated-key? [delimiter]
+  (fn [k]
+    (string/includes? k delimiter)))
 
 (defn- parseInt? [s]
   (try
@@ -63,13 +65,15 @@
     (catch Exception e
       false)))
 
-(defn- deflated-key->path [k]
-  (vec (map
-        (fn [s]
-          (if (parseInt? s)
-            (Integer/parseInt s)
-            (keyword s)))
-        (string/split (name k) #"-"))))
+(defn- deflated-key->path [delimiter]
+  (fn [k]
+    (vec (map
+          (fn [s]
+            (if (parseInt? s)
+              (Integer/parseInt s)
+              (keyword s)))
+          (string/split (name k)
+                        (re-pattern (java.util.regex.Pattern/quote delimiter)))))))
 
 (defn- path-in-map? [path m]
   (not (= 'not-found (get-in m path 'not-found))))
@@ -112,14 +116,17 @@
 
 (defn inflate
   "Converts a one level deep flat map into a nested one."
-  ([m]
-   {:pre [(map? m)]}
-   (let [dm (deflate m)]
-     (reduce
-      (fn [accum [k v]]
-        (if (deflated-key? k)
-          (let [path (deflated-key->path k)]
-            (inflate-map path v accum))
-          (assoc accum k v)))
-      {}
-      dm))))
+  [m & {:keys [delimiter]
+        :or {delimiter "."}}]
+  {:pre [(map? m)]}
+  (let [dm        (deflate m :delimiter delimiter)
+        deflated? (deflated-key? delimiter)
+        convert   (deflated-key->path delimiter)]
+    (reduce
+     (fn [accum [k v]]
+       (if (deflated? k)
+         (let [path (convert k)]
+           (inflate-map path v accum))
+         (assoc accum k v)))
+     {}
+     dm)))
