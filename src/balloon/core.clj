@@ -5,7 +5,7 @@
 ;; deflate
 ;;
 
-(declare deflate)
+(declare deflate-map)
 
 (defn- index->key [index]
   (keyword (str index)))
@@ -14,7 +14,7 @@
   (fn [ks]
     (keyword (string/join delimiter (map name ks)))))
 
-(defn- deflate-seq [coll ks]
+(defn- deflate-seq [convert coll ks]
   (let [indexed (map-indexed
                  (fn [index item]
                    [index item])
@@ -23,8 +23,8 @@
      (fn [accum [index v]]
        (let [new-k (index->key index)]
          (if (map? v)
-           (merge accum (deflate v (conj ks new-k)))
-           (merge accum (deflate {new-k v} ks)))))
+           (merge accum (deflate-map convert v (conj ks new-k)))
+           (merge accum (deflate-map convert {new-k v} ks)))))
      {}
      indexed)))
 
@@ -36,7 +36,7 @@
        (merge accum (deflate-map convert v (conj ks k)))
 
        (sequential? v)
-       (merge accum (deflate-seq v (conj ks k)))
+       (merge accum (deflate-seq convert v (conj ks k)))
 
        :else
        (assoc accum (convert (conj ks k)) v)))
