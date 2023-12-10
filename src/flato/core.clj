@@ -112,9 +112,9 @@
 
 (defn inflate
   "Converts a one level deep flat map into a nested one."
-  ([nm]
-   {:pre [(map? nm)]}
-   (let [m (deflate nm)]
+  ([m]
+   {:pre [(map? m)]}
+   (let [dm (deflate m)]
      (reduce
       (fn [accum [k v]]
         (if (deflated-key? k)
@@ -122,4 +122,4 @@
             (inflate-map path v accum))
           (assoc accum k v)))
       {}
-      m))))
+      dm))))
