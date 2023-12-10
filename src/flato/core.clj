@@ -10,8 +10,9 @@
 (defn- index->key [index]
   (keyword (str index)))
 
-(defn- keys->deflated-key [ks]
-  (keyword (string/join "-" (map name ks))))
+(defn- keys->deflated-key [delimiter]
+  (fn [ks]
+    (keyword (string/join delimiter (map name ks)))))
 
 (defn- deflate-seq [coll ks]
   (let [indexed (map-indexed
@@ -27,24 +28,27 @@
      {}
      indexed)))
 
+(defn- deflate-map [convert m ks]
+  (reduce
+   (fn [accum [k v]]
+     (cond
+       (map? v)
+       (merge accum (deflate-map convert v (conj ks k)))
+
+       (sequential? v)
+       (merge accum (deflate-seq v (conj ks k)))
+
+       :else
+       (assoc accum (convert (conj ks k)) v)))
+   {}
+   m))
+
 (defn deflate
   "Flats a nested map into a one level deep."
-  ([m] (deflate m []))
-  ([m ks]
-   {:pre [(map? m)]}
-   (reduce
-    (fn [accum [k v]]
-      (cond
-        (map? v)
-        (merge accum (deflate v (conj ks k)))
-        
-        (sequential? v)
-        (merge accum (deflate-seq v (conj ks k)))
-        
-        :else
-        (assoc accum (keys->deflated-key (conj ks k)) v)))
-    {}
-    m)))
+  [m & {:keys [delimiter]
+        :or {delimiter "."}}]
+  {:pre [(map? m)]}
+  (deflate-map (keys->deflated-key delimiter) m []))
 
 ;;
 ;; inflate
