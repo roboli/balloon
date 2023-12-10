@@ -1,6 +1,6 @@
-(ns flato.core-test
+(ns balloon.core-test
   (:require [clojure.test :refer :all]
-            [flato.core :refer :all]))
+            [balloon.core :refer :all]))
 
 (deftest a-test
   (testing "FIXME, I fail."
