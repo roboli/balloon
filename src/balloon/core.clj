@@ -108,13 +108,15 @@
 
 (defn inflate
   "Converts a one level deep flat map into a nested one."
-  [m & {:keys [delimiter normed]
+  [m & {:keys [delimiter normed always-map]
         :or {delimiter "."
-             normed false}}]
+             normed false
+             hash-map false}}]
   {:pre [(map? m)]}
   (let [dm        (if normed m (deflate m :delimiter delimiter))
         deflated? (deflated-key? delimiter)
-        convert   (deflated-key->path delimiter)]
+        convert   (deflated-key->path delimiter)
+        assoc-x   (if always-map assoc-in assoc-inth)]
     (reduce
      (fn [acc [k v]]
        (if (deflated? k)
@@ -125,8 +127,8 @@
                     (not= path-found path)
                     (map? val-found))
              (let [rest-path (subvec path (count path-found))]
-               (assoc-in acc path-found (merge-with into val-found (assoc-inth {} rest-path v))))
-             (assoc-inth acc path v)))
+               (assoc-in acc path-found (merge-with into val-found (assoc-x {} rest-path v))))
+             (assoc-x acc path v)))
          (assoc acc k v)))
      {}
      dm)))
