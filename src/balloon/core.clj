@@ -106,15 +106,6 @@
                 path)]
     (assoc-in (:end-form result) (:end-path result) v)))
 
-(defn- inflate-map [path v acc]
-  (let [[path-found val-found] (path-in-map path acc)]
-    (if (and (seq path-found)
-             (not= path-found path)
-             (map? val-found))
-      (let [rest-path (subvec path (count path-found))]
-        (assoc-in acc path-found (merge-with into val-found (assoc-inth {} rest-path v))))
-      (assoc-inth acc path v))))
-
 (defn inflate
   "Converts a one level deep flat map into a nested one."
   [m & {:keys [delimiter normed]
@@ -127,8 +118,15 @@
     (reduce
      (fn [acc [k v]]
        (if (deflated? k)
-         (let [path (convert k)]
-           (inflate-map path v acc))
+         (let [path        (convert k)
+               [path-found
+                val-found] (path-in-map path acc)]
+           (if (and (seq path-found)
+                    (not= path-found path)
+                    (map? val-found))
+             (let [rest-path (subvec path (count path-found))]
+               (assoc-in acc path-found (merge-with into val-found (assoc-inth {} rest-path v))))
+             (assoc-inth acc path v)))
          (assoc acc k v)))
      {}
      dm)))
