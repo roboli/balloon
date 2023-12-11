@@ -12,7 +12,11 @@
 
 (defn- keys->deflated-key [delimiter]
   (fn [ks]
-    (keyword (string/join delimiter (map name ks)))))
+    (keyword (string/join delimiter (map (fn [k]
+                                           (if (number? k)
+                                             (str k)
+                                             (name k)))
+                                         ks)))))
 
 (defn- deflate-map [convert inflated-map opts]
   (let [dfmap (fn dfmap [m ks]
