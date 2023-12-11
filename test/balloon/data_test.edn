@@ -146,6 +146,90 @@
                       :meta.view.newBackend true,
                       :meta.view.downloadCount 703200
                       :meta.view.clientContext.clientContextVariables []
-                      :meta.view.clientContext.inheritedVariables {}}}]}
+                      :meta.view.clientContext.inheritedVariables {}}}
+
+            {:value {:created_at "Thu Jun 22 21:00:00 +0000 2017",
+                     :id 877994604561387500,
+                     :id_str "877994604561387520",
+                     :text
+                     "Creating a Grocery List Manager Using Angular, Part 1: Add &amp; Display Items https://t.co/xFox78juL1 #Angular",
+                     :truncated false,
+                     :entities
+                     {:hashtags [{:text "Angular", :indices [103 111]}],
+                      :symbols [],
+                      :user_mentions [],
+                      :urls
+                      [{:url "https://t.co/xFox78juL1",
+                        :expanded_url "http://buff.ly/2sr60pf",
+                        :display_url "buff.ly/2sr60pf",
+                        :indices [79 102]}]},
+                     :source
+                     "<a href=\"http://bufferapp.com\" rel=\"nofollow\">Buffer</a>",
+                     :user
+                     {:description
+                      "Keep up with JavaScript tutorials, tips, tricks and articles at SitePoint.",
+                      :name "SitePoint JavaScript",
+                      :favourites_count 57,
+                      :screen_name "SitePointJS",
+                      :entities
+                      {:url
+                       {:urls
+                        [{:url "http://t.co/cCH13gqeUK",
+                          :expanded_url "https://www.sitepoint.com/javascript",
+                          :display_url "sitepoint.com/javascript",
+                          :indices [0 22]}]},
+                       :description {:urls []}},
+                      :listed_count 328,
+                      :utc_offset 43200,
+                      :id 772682964,
+                      :url "http://t.co/cCH13gqeUK",
+                      :time_zone "Wellington",
+                      :protected false,
+                      :id_str "772682964",
+                      :location "Melbourne, Australia",
+                      :followers_count 2145,
+                      :friends_count 18,
+                      :created_at "Wed Aug 22 02:06:33 +0000 2012"}}
+             :result {:user.screen_name "SitePointJS",
+                      :entities.urls.0.indices.0 79,
+                      :entities.hashtags.0.text "Angular",
+                      :entities.urls.0.indices.1 102,
+                      :user.description
+                      "Keep up with JavaScript tutorials, tips, tricks and articles at SitePoint.",
+                      :user.created_at "Wed Aug 22 02:06:33 +0000 2012",
+                      :user.entities.url.urls.0.display_url "sitepoint.com/javascript",
+                      :user.location "Melbourne, Australia",
+                      :user.name "SitePoint JavaScript",
+                      :entities.hashtags.0.indices.1 111,
+                      :user.entities.url.urls.0.url "http://t.co/cCH13gqeUK",
+                      :entities.symbols [],
+                      :user.id 772682964,
+                      :user.id_str "772682964",
+                      :user.time_zone "Wellington",
+                      :user.utc_offset 43200,
+                      :user.entities.url.urls.0.indices.0 0,
+                      :user.protected false,
+                      :source
+                      "<a href=\"http://bufferapp.com\" rel=\"nofollow\">Buffer</a>",
+                      :user.entities.description.urls [],
+                      :user.friends_count 18,
+                      :entities.urls.0.expanded_url "http://buff.ly/2sr60pf",
+                      :id 877994604561387500,
+                      :truncated false,
+                      :user.listed_count 328,
+                      :entities.hashtags.0.indices.0 103,
+                      :entities.urls.0.url "https://t.co/xFox78juL1",
+                      :user.entities.url.urls.0.expanded_url
+                      "https://www.sitepoint.com/javascript",
+                      :user.favourites_count 57,
+                      :id_str "877994604561387520",
+                      :user.followers_count 2145,
+                      :user.url "http://t.co/cCH13gqeUK",
+                      :entities.urls.0.display_url "buff.ly/2sr60pf",
+                      :created_at "Thu Jun 22 21:00:00 +0000 2017",
+                      :entities.user_mentions [],
+                      :user.entities.url.urls.0.indices.1 22,
+                      :text
+                      "Creating a Grocery List Manager Using Angular, Part 1: Add &amp; Display Items https://t.co/xFox78juL1 #Angular"}}]}
 
 
