@@ -17,28 +17,28 @@
 (defn- deflate-map [convert inflated-map opts]
   (let [dfmap (fn dfmap [m ks]
                 (reduce
-                 (fn [accum [k v]]
+                 (fn [acc [k v]]
                    (cond
                      (map? v)
-                     (merge accum (dfmap v (conj ks k)))
+                     (merge acc (dfmap v (conj ks k)))
 
                      (and (sequential? v)
                           (not (:keep-coll opts)))
-                     (merge accum (let [new-ks  (conj ks k)
+                     (merge acc (let [new-ks  (conj ks k)
                                         indexed (map-indexed
                                                  (fn [index item] [index item])
                                                  v)]
                                     (reduce
-                                     (fn [accum [index v]]
+                                     (fn [acc [index v]]
                                        (let [new-k (index->key index)]
                                          (if (map? v)
-                                           (merge accum (dfmap v (conj new-ks new-k)))
-                                           (merge accum (dfmap {new-k v} new-ks)))))
+                                           (merge acc (dfmap v (conj new-ks new-k)))
+                                           (merge acc (dfmap {new-k v} new-ks)))))
                                      {}
                                      indexed)))
 
                      :else
-                     (assoc accum (convert (conj ks k)) v)))
+                     (assoc acc (convert (conj ks k)) v)))
                  {}
                  m))]
     (dfmap inflated-map [])))
@@ -125,10 +125,10 @@
         deflated? (deflated-key? delimiter)
         convert   (deflated-key->path delimiter)]
     (reduce
-     (fn [accum [k v]]
+     (fn [acc [k v]]
        (if (deflated? k)
          (let [path (convert k)]
-           (inflate-map path v accum))
-         (assoc accum k v)))
+           (inflate-map path v acc))
+         (assoc acc k v)))
      {}
      dm)))
