@@ -14,7 +14,7 @@
   (fn [ks]
     (keyword (string/join delimiter (map name ks)))))
 
-(defn- deflate-map [convert inflated-map]
+(defn- deflate-map [convert inflated-map opts]
   (let [dfmap (fn dfmap [m ks]
                 (reduce
                  (fn [accum [k v]]
@@ -22,7 +22,8 @@
                      (map? v)
                      (merge accum (dfmap v (conj ks k)))
 
-                     (sequential? v)
+                     (and (sequential? v)
+                          (not (:keep-coll opts)))
                      (merge accum (let [new-ks  (conj ks k)
                                         indexed (map-indexed
                                                  (fn [index item] [index item])
@@ -44,10 +45,11 @@
 
 (defn deflate
   "Flats a nested map into a one level deep."
-  [m & {:keys [delimiter]
-        :or {delimiter "."}}]
+  [m & {:keys [delimiter keep-coll]
+        :or {delimiter "."
+             keep-coll false}}]
   {:pre [(map? m)]}
-  (deflate-map (keys->deflated-key delimiter) m))
+  (deflate-map (keys->deflated-key delimiter) m {:keep-coll keep-coll}))
 
 ;;
 ;; inflate
