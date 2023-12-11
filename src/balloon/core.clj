@@ -23,10 +23,12 @@
                 (reduce
                  (fn [acc [k v]]
                    (cond
-                     (map? v)
+                     (and (map? v)
+                          (not-empty v))
                      (merge acc (dfmap v (conj ks k)))
 
                      (and (sequential? v)
+                          (not-empty v)
                           (not (:keep-coll opts)))
                      (merge acc (let [new-ks  (conj ks k)
                                         indexed (map-indexed
