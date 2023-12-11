@@ -1,0 +1,151 @@
+{:inflated [{:value {:id 0
+                     :imageLink "/images/funny-cat.jpg"
+                     :codeNames ["Juggernaut"
+                                 "Mrs. Wallace"
+                                 "Buttercup"]}
+             :result {:id 0
+                      :imageLink "/images/funny-cat.jpg"
+                      :codeNames.0 "Juggernaut"
+                      :codeNames.1 "Mrs. Wallace"
+                      :codeNames.2 "Buttercup"}}
+
+            {:value {:Accept-Language "en-US,en;q=0.8"
+                     :Host "headers.jsontest.com"
+                     :Accept-Charset "ISO-8859-1,utf-8;q=0.7,*;q=0.3"
+                     :Accept "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"}
+             :result {:Accept-Language "en-US,en;q=0.8"
+                      :Host "headers.jsontest.com"
+                      :Accept-Charset "ISO-8859-1,utf-8;q=0.7,*;q=0.3"
+                      :Accept "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"}}
+
+            {:value {:txs
+                     [{:fee 4935,
+                       :hash
+                       "eefe5959efc051f72782175267c6bddf48ed9ff3de6dd29d9604bdc5e1b7ffdb",
+                       :double_spend false,
+                       :block_index nil,
+                       :time 1702334347,
+                       :vout_sz 2,
+                       :relayed_by "0.0.0.0",
+                       :size 222,
+                       :weight 561,
+                       :block_height nil,
+                       :vin_sz 1,
+                       :tx_index 7740523141445536,
+                       :lock_time 0,
+                       :ver 1}]}
+             :result {:txs.0.vin_sz 1,
+                      :txs.0.ver 1,
+                      :txs.0.relayed_by "0.0.0.0",
+                      :txs.0.block_index nil,
+                      :txs.0.hash
+                      "eefe5959efc051f72782175267c6bddf48ed9ff3de6dd29d9604bdc5e1b7ffdb",
+                      :txs.0.size 222,
+                      :txs.0.vout_sz 2,
+                      :txs.0.block_height nil,
+                      :txs.0.time 1702334347,
+                      :txs.0.double_spend false,
+                      :txs.0.weight 561,
+                      :txs.0.tx_index 7740523141445536,
+                      :txs.0.lock_time 0,
+                      :txs.0.fee 4935}}
+
+            {:value {:meta
+                     {:view
+                      {:category "Public Safety",
+                       :clientContext
+                       {:clientContextVariables [], :inheritedVariables {}},
+                       :rowsUpdatedAt 1702296170,
+                       :averageRating 0,
+                       :tableId 19289201,
+                       :hideFromDataJson false,
+                       :licenseId "SEE_TERMS_OF_USE",
+                       :name "Crimes - 2001 to Present",
+                       :attributionLink
+                       "https://portal.chicagopolice.org/portal/page/portal/ClearPath",
+                       :publicationStage "published",
+                       :createdAt 1317405571,
+                       :displayType "table",
+                       :viewLastModified 1694750302,
+                       :assetType "dataset",
+                       :approvals
+                       [{:workflowId 2226,
+                         :submissionObject "public_audience_request",
+                         :reviewedAutomatically true,
+                         :reviewedAt 1465420961,
+                         :state "approved",
+                         :submissionId 5770302,
+                         :submittedAt 1465420961,
+                         :submissionDetails {:permissionType "READ"},
+                         :submitter {:id "scy9-9wg4", :displayName "cocadmin"},
+                         :targetAudience "public",
+                         :submissionOutcomeApplication
+                         {:failureCount 0, :status "success"},
+                         :submissionOutcome "change_audience"}],
+                       :viewType "tabular",
+                       :hideFromCatalog false,
+                       :resourceName "crimes",
+                       :publicationGroup 239997,
+                       :downloadCount 703200,
+                       :oid 39959650,
+                       :id "ijzp-q8t2",
+                       :viewCount 907547,
+                       :attribution "Chicago Police Department",
+                       :rowIdentifierColumnId 580897883,
+                       :provenance "official",
+                       :rowsUpdatedBy "n9j5-zhen",
+                       :totalTimesRated 0,
+                       :numberOfComments 0,
+                       :publicationAppendEnabled false,
+                       :publicationDate 1694750301,
+                       :newBackend true}}}
+             :result {:meta.view.approvals.0.workflowId 2226,
+                      :meta.view.approvals.0.submissionObject "public_audience_request",
+                      :meta.view.hideFromDataJson false,
+                      :meta.view.attribution "Chicago Police Department",
+                      :meta.view.rowIdentifierColumnId 580897883,
+                      :meta.view.viewLastModified 1694750302,
+                      :meta.view.approvals.0.state "approved",
+                      :meta.view.id "ijzp-q8t2",
+                      :meta.view.averageRating 0,
+                      :meta.view.oid 39959650,
+                      :meta.view.resourceName "crimes",
+                      :meta.view.name "Crimes - 2001 to Present",
+                      :meta.view.viewCount 907547,
+                      :meta.view.publicationGroup 239997,
+                      :meta.view.approvals.0.submitter.id "scy9-9wg4",
+                      :meta.view.category "Public Safety",
+                      :meta.view.numberOfComments 0,
+                      :meta.view.approvals.0.submissionId 5770302,
+                      :meta.view.approvals.0.submittedAt 1465420961,
+                      :meta.view.approvals.0.submissionOutcomeApplication.failureCount 0,
+                      :meta.view.approvals.0.submissionOutcomeApplication.status
+                      "success",
+                      :meta.view.rowsUpdatedBy "n9j5-zhen",
+                      :meta.view.publicationStage "published",
+                      :meta.view.publicationAppendEnabled false,
+                      :meta.view.approvals.0.submissionDetails.permissionType "READ",
+                      :meta.view.provenance "official",
+                      :meta.view.licenseId "SEE_TERMS_OF_USE",
+                      :meta.view.rowsUpdatedAt 1702296170,
+                      :meta.view.approvals.0.targetAudience "public",
+                      :meta.view.viewType "tabular",
+                      :meta.view.createdAt 1317405571,
+                      :meta.view.approvals.0.submitter.displayName "cocadmin",
+                      :meta.view.attributionLink
+                      "https://portal.chicagopolice.org/portal/page/portal/ClearPath",
+                      :meta.view.hideFromCatalog false,
+                      :meta.view.approvals.0.reviewedAt 1465420961,
+                      :meta.view.displayType "table",
+                      :meta.view.publicationDate 1694750301,
+                      :meta.view.approvals.0.submissionOutcome "change_audience",
+                      :meta.view.assetType "dataset",
+                      :meta.view.approvals.0.reviewedAutomatically true,
+                      :meta.view.tableId 19289201,
+                      :meta.view.totalTimesRated 0,
+                      :meta.view.newBackend true,
+                      :meta.view.downloadCount 703200
+                      :meta.view.clientContext.clientContextVariables []
+                      :meta.view.clientContext.inheritedVariables {}}}]}
+
+

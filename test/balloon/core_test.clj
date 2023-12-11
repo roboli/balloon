@@ -1,7 +1,13 @@
 (ns balloon.core-test
   (:require [clojure.test :refer :all]
-            [balloon.core :refer :all]))
+            [balloon.core :as b]))
 
-(deftest a-test
-  (testing "FIXME, I fail."
-    (is (= 0 1))))
+(def path "test/balloon/")
+
+(deftest deflate
+  (testing "Deflating maps"
+    (let [data (read-string (slurp (str path "data_test.edn")))]
+      (doall
+       (for [inflated (:inflated data)]
+         (let [result (b/deflate (:value inflated))]
+           (is (= result (:result inflated)))))))))
