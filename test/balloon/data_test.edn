@@ -7,7 +7,12 @@
                       :imageLink "/images/funny-cat.jpg"
                       :codeNames.0 "Juggernaut"
                       :codeNames.1 "Mrs. Wallace"
-                      :codeNames.2 "Buttercup"}}
+                      :codeNames.2 "Buttercup"}
+             :result* {:id 0
+                       :imageLink "/images/funny-cat.jpg"
+                       :codeNames*0 "Juggernaut"
+                       :codeNames*1 "Mrs. Wallace"
+                       :codeNames*2 "Buttercup"}}
 
             {:value {:Accept-Language "en-US,en;q=0.8"
                      :Host "headers.jsontest.com"
@@ -16,7 +21,11 @@
              :result {:Accept-Language "en-US,en;q=0.8"
                       :Host "headers.jsontest.com"
                       :Accept-Charset "ISO-8859-1,utf-8;q=0.7,*;q=0.3"
-                      :Accept "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"}}
+                      :Accept "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"}
+             :result* {:Accept-Language "en-US,en;q=0.8"
+                       :Host "headers.jsontest.com"
+                       :Accept-Charset "ISO-8859-1,utf-8;q=0.7,*;q=0.3"
+                       :Accept "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"}}
 
             {:value {:txs
                      [{:fee 4935,
@@ -48,7 +57,22 @@
                       :txs.0.weight 561,
                       :txs.0.tx_index 7740523141445536,
                       :txs.0.lock_time 0,
-                      :txs.0.fee 4935}}
+                      :txs.0.fee 4935}
+             :result* {:txs*0*vin_sz 1,
+                       :txs*0*ver 1,
+                       :txs*0*relayed_by "0.0.0.0",
+                       :txs*0*block_index nil,
+                       :txs*0*hash
+                       "eefe5959efc051f72782175267c6bddf48ed9ff3de6dd29d9604bdc5e1b7ffdb",
+                       :txs*0*size 222,
+                       :txs*0*vout_sz 2,
+                       :txs*0*block_height nil,
+                       :txs*0*time 1702334347,
+                       :txs*0*double_spend false,
+                       :txs*0*weight 561,
+                       :txs*0*tx_index 7740523141445536,
+                       :txs*0*lock_time 0,
+                       :txs*0*fee 4935}}
 
             {:value {:meta
                      {:view
@@ -146,7 +170,55 @@
                       :meta.view.newBackend true,
                       :meta.view.downloadCount 703200
                       :meta.view.clientContext.clientContextVariables []
-                      :meta.view.clientContext.inheritedVariables {}}}
+                      :meta.view.clientContext.inheritedVariables {}}
+             :result* {:meta*view*approvals*0*workflowId 2226,
+                       :meta*view*approvals*0*submissionObject "public_audience_request",
+                       :meta*view*hideFromDataJson false,
+                       :meta*view*attribution "Chicago Police Department",
+                       :meta*view*rowIdentifierColumnId 580897883,
+                       :meta*view*viewLastModified 1694750302,
+                       :meta*view*approvals*0*state "approved",
+                       :meta*view*id "ijzp-q8t2",
+                       :meta*view*averageRating 0,
+                       :meta*view*oid 39959650,
+                       :meta*view*resourceName "crimes",
+                       :meta*view*name "Crimes - 2001 to Present",
+                       :meta*view*viewCount 907547,
+                       :meta*view*publicationGroup 239997,
+                       :meta*view*approvals*0*submitter*id "scy9-9wg4",
+                       :meta*view*category "Public Safety",
+                       :meta*view*numberOfComments 0,
+                       :meta*view*approvals*0*submissionId 5770302,
+                       :meta*view*approvals*0*submittedAt 1465420961,
+                       :meta*view*approvals*0*submissionOutcomeApplication*failureCount 0,
+                       :meta*view*approvals*0*submissionOutcomeApplication*status
+                       "success",
+                       :meta*view*rowsUpdatedBy "n9j5-zhen",
+                       :meta*view*publicationStage "published",
+                       :meta*view*publicationAppendEnabled false,
+                       :meta*view*approvals*0*submissionDetails*permissionType "READ",
+                       :meta*view*provenance "official",
+                       :meta*view*licenseId "SEE_TERMS_OF_USE",
+                       :meta*view*rowsUpdatedAt 1702296170,
+                       :meta*view*approvals*0*targetAudience "public",
+                       :meta*view*viewType "tabular",
+                       :meta*view*createdAt 1317405571,
+                       :meta*view*approvals*0*submitter*displayName "cocadmin",
+                       :meta*view*attributionLink
+                       "https://portal.chicagopolice.org/portal/page/portal/ClearPath",
+                       :meta*view*hideFromCatalog false,
+                       :meta*view*approvals*0*reviewedAt 1465420961,
+                       :meta*view*displayType "table",
+                       :meta*view*publicationDate 1694750301,
+                       :meta*view*approvals*0*submissionOutcome "change_audience",
+                       :meta*view*assetType "dataset",
+                       :meta*view*approvals*0*reviewedAutomatically true,
+                       :meta*view*tableId 19289201,
+                       :meta*view*totalTimesRated 0,
+                       :meta*view*newBackend true,
+                       :meta*view*downloadCount 703200
+                       :meta*view*clientContext*clientContextVariables []
+                       :meta*view*clientContext*inheritedVariables {}}}
 
             {:value {:created_at "Thu Jun 22 21:00:00 +0000 2017",
                      :id 877994604561387500,
@@ -230,6 +302,47 @@
                       :entities.user_mentions [],
                       :user.entities.url.urls.0.indices.1 22,
                       :text
-                      "Creating a Grocery List Manager Using Angular, Part 1: Add &amp; Display Items https://t.co/xFox78juL1 #Angular"}}]}
+                      "Creating a Grocery List Manager Using Angular, Part 1: Add &amp; Display Items https://t.co/xFox78juL1 #Angular"}
+             :result* {:user*screen_name "SitePointJS",
+                       :entities*urls*0*indices*0 79,
+                       :entities*hashtags*0*text "Angular",
+                       :entities*urls*0*indices*1 102,
+                       :user*description
+                       "Keep up with JavaScript tutorials, tips, tricks and articles at SitePoint.",
+                       :user*created_at "Wed Aug 22 02:06:33 +0000 2012",
+                       :user*entities*url*urls*0*display_url "sitepoint.com/javascript",
+                       :user*location "Melbourne, Australia",
+                       :user*name "SitePoint JavaScript",
+                       :entities*hashtags*0*indices*1 111,
+                       :user*entities*url*urls*0*url "http://t.co/cCH13gqeUK",
+                       :entities*symbols [],
+                       :user*id 772682964,
+                       :user*id_str "772682964",
+                       :user*time_zone "Wellington",
+                       :user*utc_offset 43200,
+                       :user*entities*url*urls*0*indices*0 0,
+                       :user*protected false,
+                       :source
+                       "<a href=\"http://bufferapp.com\" rel=\"nofollow\">Buffer</a>",
+                       :user*entities*description*urls [],
+                       :user*friends_count 18,
+                       :entities*urls*0*expanded_url "http://buff.ly/2sr60pf",
+                       :id 877994604561387500,
+                       :truncated false,
+                       :user*listed_count 328,
+                       :entities*hashtags*0*indices*0 103,
+                       :entities*urls*0*url "https://t.co/xFox78juL1",
+                       :user*entities*url*urls*0*expanded_url
+                       "https://www.sitepoint.com/javascript",
+                       :user*favourites_count 57,
+                       :id_str "877994604561387520",
+                       :user*followers_count 2145,
+                       :user*url "http://t.co/cCH13gqeUK",
+                       :entities*urls*0*display_url "buff.ly/2sr60pf",
+                       :created_at "Thu Jun 22 21:00:00 +0000 2017",
+                       :entities*user_mentions [],
+                       :user*entities*url*urls*0*indices*1 22,
+                       :text
+                       "Creating a Grocery List Manager Using Angular, Part 1: Add &amp; Display Items https://t.co/xFox78juL1 #Angular"}}]}
 
 

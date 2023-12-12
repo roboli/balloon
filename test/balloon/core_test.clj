@@ -10,4 +10,11 @@
       (doall
        (for [inflated (:inflated data)]
          (let [result (b/deflate (:value inflated))]
-           (is (= result (:result inflated)))))))))
+           (is (= result (:result inflated))))))))
+
+  (testing "Deflating maps using :delimiter *"
+    (let [data (read-string (slurp (str path "data_test.edn")))]
+      (doall
+       (for [inflated (:inflated data)]
+         (let [result (b/deflate (:value inflated) :delimiter "*")]
+           (is (= result (:result* inflated)))))))))
