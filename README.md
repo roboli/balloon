@@ -1,6 +1,6 @@
 # balloon
 
-Deflate a nested map into one level deep or inflate a one level into a nested map using delimited keys.
+Deflate (flat) a nested map into one level deep or inflate (unflat) a one level into a nested map using delimited keys.
 
 ## Quickstart
 
@@ -67,7 +67,7 @@ Where options:
 ### Inflate
 
 ```clojure
-(deflate flat-hash-map :option-1-key option-1-val :option-2-key option-2-val ...)
+(inflate flat-hash-map :option-1-key option-1-val :option-2-key option-2-val ...)
 ```
 
 * `:delimiter`: Use different delimiter to unflat the hash-map delimited keys, defaults to ".".
