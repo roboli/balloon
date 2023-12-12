@@ -103,9 +103,11 @@
                   (if (keyword? k)
                     (update acc :end-path conj k)
                     (if (and (nil? (get-in end-form end-path))
-                             (= 0 k))
+                             (number? k))
                       {:end-path (conj end-path k)
-                       :end-form (assoc-in end-form end-path [])}
+                       :end-form (assoc-in end-form end-path (if (> k 0)
+                                                               (vec (repeat k nil))
+                                                               []))}
                       (update acc :end-path conj k))))
                 {:end-path []
                  :end-form form}
