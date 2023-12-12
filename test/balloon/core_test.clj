@@ -17,7 +17,14 @@
       (doall
        (for [item coll]
          (let [result (b/deflate (:inflated item) :delimiter "*")]
-           (is (= result (:deflated* item)))))))))
+           (is (= result (:deflated* item))))))))
+
+  (testing "Deflating maps using :keep-coll true"
+    (let [coll (read-string (slurp (str path "data_test.edn")))]
+      (doall
+       (for [item coll]
+         (let [result (b/deflate (:inflated item) :keep-coll true)]
+           (is (= result (:deflated-keep-colls item)))))))))
 
 (deftest inflate
   (testing "Inflating maps"
