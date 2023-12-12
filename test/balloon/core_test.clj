@@ -18,3 +18,18 @@
        (for [item coll]
          (let [result (b/deflate (:inflated item) :delimiter "*")]
            (is (= result (:deflated* item)))))))))
+
+(deftest inflate
+  (testing "Inflating maps"
+    (let [coll (read-string (slurp (str path "data_test.edn")))]
+      (doall
+       (for [item coll]
+         (let [result (b/inflate (:deflated item))]
+           (is (= result (:inflated item))))))))
+
+  (testing "Inflating maps using :delimiter *"
+    (let [coll (read-string (slurp (str path "data_test.edn")))]
+      (doall
+       (for [item coll]
+         (let [result (b/inflate (:deflated* item) :delimiter "*")]
+           (is (= result (:inflated item)))))))))
