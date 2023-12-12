@@ -116,12 +116,12 @@
 
 (defn inflate
   "Converts a one level deep flat map into a nested one."
-  [m & {:keys [delimiter normed always-map]
+  [m & {:keys [delimiter pre-deflate always-map]
         :or {delimiter "."
-             normed false
+             pre-deflate true
              hash-map false}}]
   {:pre [(map? m)]}
-  (let [dm        (if normed m (deflate m :delimiter delimiter))
+  (let [dm        (if pre-deflate (deflate m :delimiter delimiter) m)
         deflated? (deflated-key? delimiter)
         convert   (deflated-key->path delimiter)
         assoc-x   (if always-map assoc-in assoc-inth)]

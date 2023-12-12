@@ -39,4 +39,11 @@
       (doall
        (for [item coll]
          (let [result (b/inflate (:deflated* item) :delimiter "*")]
-           (is (= result (:inflated item)))))))))
+           (is (= result (:inflated item))))))))
+
+  (testing "Inflating maps using :pre-deflate false"
+    (let [value {:value {:a.b "a.b"}
+                 :other.0 "any"}
+          result (b/inflate value :pre-deflate false)]
+      (is (= result {:value {:a.b "a.b"}
+                     :other ["any"]})))))
