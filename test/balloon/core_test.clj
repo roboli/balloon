@@ -46,4 +46,11 @@
                  :other.0 "any"}
           result (b/inflate value :pre-deflate false)]
       (is (= result {:value {:a.b "a.b"}
-                     :other ["any"]})))))
+                     :other ["any"]}))))
+
+  (testing "Inflating maps using :hash-map true"
+    (let [value {:value ["a" "b" "c"]
+                 :other.0 "any"}
+          result (b/inflate value :hash-map true)]
+      (is (= result {:value {0 "a" 1 "b" 2 "c"}
+                     :other {0 "any"}})))))
