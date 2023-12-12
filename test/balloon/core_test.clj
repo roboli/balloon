@@ -6,15 +6,15 @@
 
 (deftest deflate
   (testing "Deflating maps"
-    (let [data (read-string (slurp (str path "data_test.edn")))]
+    (let [coll (read-string (slurp (str path "data_test.edn")))]
       (doall
-       (for [inflated (:inflated data)]
-         (let [result (b/deflate (:value inflated))]
-           (is (= result (:result inflated))))))))
+       (for [item coll]
+         (let [result (b/deflate (:inflated item))]
+           (is (= result (:deflated item))))))))
 
   (testing "Deflating maps using :delimiter *"
-    (let [data (read-string (slurp (str path "data_test.edn")))]
+    (let [coll (read-string (slurp (str path "data_test.edn")))]
       (doall
-       (for [inflated (:inflated data)]
-         (let [result (b/deflate (:value inflated) :delimiter "*")]
-           (is (= result (:result* inflated)))))))))
+       (for [item coll]
+         (let [result (b/deflate (:inflated item) :delimiter "*")]
+           (is (= result (:deflated* item)))))))))
