@@ -2,13 +2,15 @@
 
 Deflate (flat) a nested map into one level deep or inflate (unflat) a one level into a nested map using delimited keys.
 
+*Inspired by these [guys](https://github.com/hughsk/flat).*
+
 ## Quickstart
 
 For installation, add the following dependency to your `project.clj` file:
 
     [org.clojars.roboli/balloon "0.1.0-SNAPSHOT"]
 
-Import namespace example:
+Import namespace, example:
 
 ```clojure
 (ns balloon.core
@@ -121,8 +123,10 @@ Examples:
 
 ;;=>
 ;; {:id 3,
-;;  :profile {:first-name "Lucas", :last-last "Arts"},
-;;  :location {:country "USA", :city "LA"}}
+;;  :profile {:first-name "Lucas",
+;;            :last-last "Arts"},
+;;  :location {:country "USA",
+;;             :city "LA"}}
 
 
 ;; Using :hash-map
