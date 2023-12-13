@@ -63,7 +63,7 @@ There are only two functions: deflate and inflate, each one with its own options
 
 Where options:
 
-* `:delimiter`: Use different delimiter to build delimited keys, defaults to ".".
+* `:delimiter`: Use different delimiter to build delimited keys, defaults to `.`.
 * `:keep-coll`: Do not flat collections (lists or vectors), defaults to `false`.
 
 Examples:
@@ -105,7 +105,7 @@ Examples:
 (inflate flat-hash-map :option-1-key option-1-val :option-2-key option-2-val ...)
 ```
 
-* `:delimiter`: Use different delimiter to unflat the hash-map delimited keys, defaults to ".".
+* `:delimiter`: Use different delimiter to unflat the hash-map delimited keys, defaults to `.`.
 * `:pre-deflate`: Run deflate on hash-map to guarantee is fully normalized before running unflat process, defaults to `true`.
 * `:hash-map`: Unflat indexes in delimited keys as hash-map, not as a collection, defaults to `false`.
 
