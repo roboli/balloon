@@ -50,7 +50,11 @@
     (dfmap inflated-map [])))
 
 (defn deflate
-  "Flats a nested map into a one level deep."
+  "Flats a nested map to one level deep.
+
+  Options are key-value pairs and may be one or many of:
+  :delimiter - Use different delimiter to build delimited keys, defaults to .
+  :keep-coll - Do not flat collections (lists or vectors), defaults to false"
   [m & {:keys [delimiter keep-coll]
         :or {delimiter "."
              keep-coll false}}]
@@ -115,7 +119,12 @@
     (assoc-in (:end-form result) (:end-path result) v)))
 
 (defn inflate
-  "Converts a one level deep flat map into a nested one."
+  "Unflats a one level deep flat map to a nested one.
+
+  Options are key-value pairs and may be one or many of:
+  :delimiter   - Use different delimiter to unflat the hash-map delimited keys, defaults to .
+  :pre-deflate - Run deflate on hash-map to guarantee is fully normalized before running unflat process, defaults to true
+  :hash-map    - Unflat indexes in delimited keys as hash-map, not as a collection, defaults to false"
   [m & {:keys [delimiter pre-deflate hash-map]
         :or {delimiter "."
              pre-deflate true
