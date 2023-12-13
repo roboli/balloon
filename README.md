@@ -107,6 +107,37 @@ Examples:
 * `:pre-deflate`: Run deflate on hash-map to guarantee is fully normalized before running unflat process, defaults to `true`.
 * `:hash-map`: Unflat indexes in delimited keys as hash-map, not as a collection, defaults to `false`.
 
+Examples:
+
+```clojure
+;; Using :delimiter
+
+(b/inflate {:id 3,
+            :profile*first-name "Lucas",
+            :profile*last-last "Arts",
+            :location*country "USA",
+            :location*city "LA"}
+    :delimiter "*")
+
+;;=>
+;; {:id 3,
+;;  :profile {:first-name "Lucas", :last-last "Arts"},
+;;  :location {:country "USA", :city "LA"}}
+
+
+;; Using :hash-map
+
+(b/inflate {:values.0.one "one"
+            :values.1.two "two"
+            :values.2.three "three"}
+    :hash-map true)
+
+;;=>
+;; {:values {0 {:one "one"},
+;;           1 {:two "two"},
+;;           2 {:three "three"}}}
+```
+
 ## License
 
 Copyright © 2023 Roberto Oliveros
