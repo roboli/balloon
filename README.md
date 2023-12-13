@@ -64,6 +64,39 @@ Where options:
 * `:delimiter`: Use different delimiter to build delimited keys, defaults to ".".
 * `:keep-coll`: Do not flat collections (lists or vectors), defaults to `false`.
 
+Examples:
+
+```clojure
+;; Using :delimiter
+
+(b/deflate {:id 3
+            :profile {:first-name "Lucas"
+                      :last-last "Arts"}
+            :location {:country "USA"
+                       :city "LA"}}
+    :delimiter "*")
+
+;;=>
+;; {:id 3,
+;;  :profile*first-name "Lucas",
+;;  :profile*last-last "Arts",
+;;  :location*country "USA",
+;;  :location*city "LA"}
+
+
+;; Using :keep-coll
+
+(b/deflate {:destinations ["Paris" "London" "Madrid"]
+            :person {:first-name "John"
+                     :last-last "Walker"}}
+    :keep-coll true)
+
+;;=>
+;; {:destinations ["Paris" "London" "Madrid"],
+;;  :person.first-name "John",
+;;  :person.last-last "Walker"}
+```
+
 ### Inflate
 
 ```clojure
