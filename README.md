@@ -17,7 +17,7 @@ Import namespace, example:
   (:require [balloon.core :as b]))
 ```
 
-Use deflate to flat a nested hash-map:
+Use deflate to flat a nested map:
 
 ```clojure
 (b/deflate {:my-map {:one "one"
@@ -34,7 +34,7 @@ Use deflate to flat a nested hash-map:
 ;;  :my-array.2 "c"}
 ```
 
-Use inflate to convert a deflated (flatten) hash-map into a nested one:
+Use inflate to convert a deflated (flatten) map into a nested one:
 
 ```clojure
 (b/inflate {:my-map.one "one",
@@ -141,6 +141,18 @@ Examples:
 ;;           1 {:two "two"},
 ;;           2 {:three "three"}}}
 ```
+
+## Leiningen Plugin
+
+Looking for a CLI?
+
+```
+$ lein balloon deflate '{:a {:b "c"}}' :delimiter '*'
+
+;;=> {:a*b "c"}
+```
+
+Please check out the [lein-balloon](https://github.com/roboli/lein-balloon) plugin for more.
 
 ## License
 
