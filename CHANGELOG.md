@@ -6,4 +6,4 @@ All notable changes to this project will be documented in this file. This change
 ## [0.1.0] - 2023-12-20
 
 [Unreleased]: https://github.com/roboli/balloon/compare/0.1.0...HEAD
-[0.1.0]: https://github.com/roboli/pdf-2-images/releases/tag/0.1.0
+[0.1.0]: https://github.com/roboli/balloon/releases/tag/0.1.0
