@@ -149,3 +149,31 @@
          (assoc acc k v)))
      {}
      dm)))
+
+(defn construct-recur [m ks v]
+  (if (= (count ks) 1)
+    (assoc m (first ks) v)
+    (let [k  (first ks)
+          mv (get m k)]
+      (if (map? mv)
+        (assoc m
+               k
+               (construct-recur mv (rest ks) v))
+        (assoc m
+               k
+               (construct-recur {} (rest ks) v))))))
+
+(defn inflate-recur [ks m]
+  (if (empty? ks)
+    m
+    (let [k (first ks)
+          v (get m k)]
+      (if (map? v)
+        (let [val (inflate-recur (keys v) v)]
+          (if ((deflated-key? ".") k)
+            (construct-recur (dissoc m k) ((deflated-key->path ".") k) val)
+            {k val}))
+        (if ((deflated-key? ".") k)
+          (inflate-recur (rest ks)
+                         (construct-recur (dissoc m k) ((deflated-key->path ".") k) v))
+          (inflate-recur (rest ks) m))))))
