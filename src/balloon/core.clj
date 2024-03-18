@@ -169,10 +169,9 @@
     (let [k (first ks)
           v (get m k)]
       (if (map? v)
-        (let [val (inflate-recur (keys v) v)]
-          (if ((deflated-key? ".") k)
-            (construct-recur (dissoc m k) ((deflated-key->path ".") k) val)
-            {k val}))
+        (if ((deflated-key? ".") k)
+          (construct-recur (dissoc m k) ((deflated-key->path ".") k) (inflate-recur (keys v) v))
+          {k (inflate-recur (keys v) v)})
         (if ((deflated-key? ".") k)
           (inflate-recur (rest ks)
                          (construct-recur (dissoc m k) ((deflated-key->path ".") k) v))
