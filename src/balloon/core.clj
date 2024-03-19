@@ -124,12 +124,11 @@
                             v (get m k)]
                         (cond
                           (map? v)
-                          (if (deflated? k)
-                            (inf-recur (rest ks)
+                          (inf-recur (rest ks)
+                                     (if (deflated? k)
                                        (assoc-x (dissoc m k)
                                                 (convert k)
-                                                (inf-recur (keys v) v)))
-                            (inf-recur (rest ks)
+                                                (inf-recur (keys v) v))
                                        (assoc m k (inf-recur (keys v) v))))
 
                           (sequential? v)
@@ -142,19 +141,18 @@
                                            (vec (map map-fn sv))
 
                                            :else sv))]
-                            (if (deflated? k)
-                              (inf-recur (rest ks)
+                            (inf-recur (rest ks)
+                                       (if (deflated? k)
                                          (assoc-x (dissoc m k)
                                                   (convert k)
-                                                  (vec (map map-fn v))))
-                              (inf-recur (rest ks)
+                                                  (vec (map map-fn v)))
                                          (assoc m k (vec (map map-fn v))))))
 
                           :else
-                          (if (deflated? k)
-                            (inf-recur (rest ks)
+                          (inf-recur (rest ks)
+                                     (if (deflated? k)
                                        (assoc-x (dissoc m k)
                                                 (convert k)
-                                                v))
-                            (inf-recur (rest ks) m))))))]
+                                                v)
+                                       m))))))]
     (inf-recur (keys m) m)))
