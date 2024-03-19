@@ -41,16 +41,24 @@
          (let [result (b/inflate (:deflated* item) :delimiter "*")]
            (is (= result (:inflated item))))))))
 
-  (testing "Inflating maps using :pre-deflate false"
-    (let [value {:value {:a.b "a.b"}
-                 :other.0 "any"}
-          result (b/inflate value :pre-deflate false)]
-      (is (= result {:value {:a.b "a.b"}
-                     :other ["any"]}))))
-
   (testing "Inflating maps using :hash-map true"
     (let [value {:value ["a" "b" "c"]
                  :other.0 "any"}
           result (b/inflate value :hash-map true)]
-      (is (= result {:value {0 "a" 1 "b" 2 "c"}
-                     :other {0 "any"}})))))
+      (is (= result {:value ["a" "b" "c"]
+                     :other {0 "any"}}))))
+
+  (testing "Inflating maps using :hash-map true (again)"
+    (let [value {:my-map.one "one",
+                 :my-map.two "two",
+                 :my-map.any.other "other",
+                 :my-map.any.arr [{:a.b "c"}]
+                 :my-array.0.a "a",
+                 :my-array.1 "b",
+                 :my-array.2 "c"}
+          result (b/inflate value :hash-map true)]
+      (is (= result {:my-map {:one "one",
+                              :two "two",
+                              :any {:other "other"}
+                              :arr [{:a {:b "c"}}]},
+                     :my-array {0 {:a "a"} 1 "b" 2 "c"}})))))
