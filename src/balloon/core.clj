@@ -86,22 +86,12 @@
           (string/split (name k)
                         (re-pattern (java.util.regex.Pattern/quote delimiter)))))))
 
-(defn- path-in-map? [path m]
-  (not (= 'not-found (get-in m path 'not-found))))
-
-(defn- path-in-map [path m]
-  (let [result (reduce (fn [{:keys [end-path value] :as acc} k]
-                         (let [ks (conj end-path k)]
-                           (if (path-in-map? ks m)
-                             {:end-path ks
-                              :value (get-in m ks)}
-                             (reduced acc))))
-                       {:end-path []
-                        :value {}}
-                       path)]
-    [(:end-path result) (:value result)]))
-
-(defn- assoc-inth [form path v]
+(defn- assoc-inth
+  "Like assoc-in but conjoins value to a vector if key in path is a number.
+  Eg:
+  (assoc-in {} [:a 0] 1) => {:a {0 1}}
+  (assoc-inth {} [:a 0] 1) => {:a [1]}"
+  [form path v]
   (let [result (reduce
                 (fn [{:keys [end-path end-form] :as acc} k]
                   (if (keyword? k)
@@ -122,30 +112,51 @@
   "Unflats a one level deep flat map to a nested one.
 
   Options are key-value pairs and may be one or many of:
-  :delimiter   - Use different delimiter to unflat the hash-map delimited keys, defaults to .
-  :pre-deflate - Run deflate on hash-map to guarantee is fully normalized before running unflat process, defaults to true
-  :hash-map    - Unflat indexes in delimited keys as hash-map, not as a collection, defaults to false"
-  [m & {:keys [delimiter pre-deflate hash-map]
+  :delimiter   - Use different delimiter to unflat the hash-map delimited keys, defaults to '.'
+  :hash-map    - Unflat indexes/numbers in delimited keys as hash-maps, not as collections, defaults to false"
+  [m & {:keys [delimiter hash-map]
         :or {delimiter "."
-             pre-deflate true
              hash-map false}}]
   {:pre [(map? m)]}
-  (let [dm        (if pre-deflate (deflate m :delimiter delimiter) m)
-        deflated? (deflated-key? delimiter)
+  (let [deflated? (deflated-key? delimiter)
         convert   (deflated-key->path delimiter)
-        assoc-x   (if hash-map assoc-in assoc-inth)]
-    (reduce
-     (fn [acc [k v]]
-       (if (deflated? k)
-         (let [path        (convert k)
-               [path-found
-                val-found] (path-in-map path acc)]
-           (if (and (seq path-found)
-                    (not= path-found path)
-                    (map? val-found))
-             (let [rest-path (subvec path (count path-found))]
-               (assoc-in acc path-found (merge-with into val-found (assoc-x {} rest-path v))))
-             (assoc-x acc path v)))
-         (assoc acc k v)))
-     {}
-     dm)))
+        assoc-x   (if hash-map assoc-in assoc-inth)
+        inf-recur (fn inf-recur [ks m]
+                    (if (empty? ks)
+                      m
+                      (let [k (first ks)
+                            v (get m k)]
+                        (cond
+                          (map? v)
+                          (inf-recur (rest ks)
+                                     (if (deflated? k)
+                                       (assoc-x (dissoc m k)
+                                                (convert k)
+                                                (inf-recur (keys v) v))
+                                       (assoc m k (inf-recur (keys v) v))))
+
+                          (sequential? v)
+                          (let [map-fn (fn map-fn [sv]
+                                         (cond
+                                           (map? sv)
+                                           (inf-recur (keys sv) sv)
+
+                                           (sequential? sv)
+                                           (vec (map map-fn sv))
+
+                                           :else sv))]
+                            (inf-recur (rest ks)
+                                       (if (deflated? k)
+                                         (assoc-x (dissoc m k)
+                                                  (convert k)
+                                                  (vec (map map-fn v)))
+                                         (assoc m k (vec (map map-fn v))))))
+
+                          :else
+                          (inf-recur (rest ks)
+                                     (if (deflated? k)
+                                       (assoc-x (dissoc m k)
+                                                (convert k)
+                                                v)
+                                       m))))))]
+    (inf-recur (keys m) m)))
