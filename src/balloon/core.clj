@@ -107,9 +107,8 @@
   "Unflats a one level deep flat map to a nested one.
 
   Options are key-value pairs and may be one or many of:
-  :delimiter   - Use different delimiter to unflat the hash-map delimited keys, defaults to .
-  :pre-deflate - Run deflate on hash-map to guarantee is fully normalized before running unflat process, defaults to true
-  :hash-map    - Unflat indexes in delimited keys as hash-map, not as a collection, defaults to false"
+  :delimiter   - Use different delimiter to unflat the hash-map delimited keys, defaults to '.'
+  :hash-map    - Unflat indexes/numbers in delimited keys as hash-maps, not as collections, defaults to false"
   [m & {:keys [delimiter hash-map]
         :or {delimiter "."
              hash-map false}}]
