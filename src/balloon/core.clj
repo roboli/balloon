@@ -122,12 +122,30 @@
                       m
                       (let [k (first ks)
                             v (get m k)]
-                        (if (map? v)
+                        (cond
+                          (map? v)
                           (if (deflated? k)
                             (inf-recur (rest ks)
                                        (assoc-x (dissoc m k) (convert k) (inf-recur (keys v) v)))
                             (inf-recur (rest ks)
-                                       {k (inf-recur (keys v) v)}))
+                                       (assoc m k (inf-recur (keys v) v))))
+
+                          (sequential? v)
+                          (if (deflated? k)
+                            (inf-recur (rest ks)
+                                       (assoc-x (dissoc m k) (convert k) (vec (map (fn [sv]
+                                                                                     (if (map? sv)
+                                                                                       (inf-recur (keys sv) sv)
+                                                                                       sv))
+                                                                                   v))))
+                            (inf-recur (rest ks)
+                                       (assoc m k (vec (map (fn [sv]
+                                                              (if (map? sv)
+                                                                (inf-recur (keys sv) sv)
+                                                                sv))
+                                                            v)))))
+
+                          :else
                           (if (deflated? k)
                             (inf-recur (rest ks)
                                        (assoc-x (dissoc m k) (convert k) v))

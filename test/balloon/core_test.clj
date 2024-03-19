@@ -57,8 +57,9 @@
                  :my-array.1 "b",
                  :my-array.2 "c"}
           result (b/inflate value :hash-map true)]
-      (is (= result {:my-map {:one "one",
-                              :two "two",
-                              :any {:other "other"}
-                              :arr [{:a {:b "c"}}]},
-                     :my-array {0 {:a "a"} 1 "b" 2 "c"}})))))
+      (is (= result {:my-map
+                     {:one "one",
+                      :two "two",
+                      :any {:other "other",
+                            :arr [{:a {:b "c"}}]}},
+                     :my-array {0 {:a "a"}, 1 "b", 2 "c"}})))))
