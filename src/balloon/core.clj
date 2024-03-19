@@ -10,13 +10,12 @@
 (defn- index->key [index]
   (keyword (str index)))
 
-(defn- keys->deflated-key [delimiter]
+(defn- keys->deflated-key
+  [delimiter]
   (fn [ks]
-    (keyword (string/join delimiter (map (fn [k]
-                                           (if (number? k)
-                                             (str k)
-                                             (name k)))
-                                         ks)))))
+    (->> (for [k ks] (if (number? k) (str k) (name k)))
+         (string/join delimiter)
+         (keyword))))
 
 (defn- deflate-map [convert inflated-map opts]
   (let [dfmap (fn dfmap [m ks]
