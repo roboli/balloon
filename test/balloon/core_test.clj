@@ -62,4 +62,28 @@
                       :two "two",
                       :any {:other "other",
                             :arr [{:a {:b "c"}}]}},
-                     :my-array {0 {:a "a"}, 1 "b", 2 "c"}})))))
+                     :my-array {0 {:a "a"}, 1 "b", 2 "c"}}))))
+
+  (testing "Inflating maps with sequentials with maps"
+    (let [value {:my-map.one "one",
+                 :my-map.any.arr [{:a.b "c"}
+                                  {:c [{:d.f [{:g.j "j"}]}]}]
+                 :my-array.0.a "a",
+                 :my-array.1 "b",
+                 :my-array.2 "c"}
+          result (b/inflate value :hash-map true)]
+      (is (= result {:my-map
+                     {:one "one",
+                      :any {:arr [{:a {:b "c"}}
+                                  {:c [{:d {:f [{:g {:j "j"}}]}}]}]}},
+                     :my-array {0 {:a "a"}, 1 "b", 2 "c"}}))))
+
+  (testing "Inflating maps with nested sequentials"
+    (let [value {:my-map.one "one",
+                 :my-map.any.arr [[{:a.b "c"}]
+                                  {:c [{:d.f [[{:g.j "j"}]]}]}]}
+          result (b/inflate value :hash-map true)]
+      (is (= result {:my-map
+                     {:one "one",
+                      :any {:arr [[{:a {:b "c"}}]
+                                  {:c [{:d {:f [[{:g {:j "j"}}]]}}]}]}},})))))

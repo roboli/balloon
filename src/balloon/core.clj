@@ -133,10 +133,15 @@
                                        (assoc m k (inf-recur (keys v) v))))
 
                           (sequential? v)
-                          (let [map-fn (fn [sv]
-                                         (if (map? sv)
+                          (let [map-fn (fn map-fn [sv]
+                                         (cond
+                                           (map? sv)
                                            (inf-recur (keys sv) sv)
-                                           sv))]
+
+                                           (sequential? sv)
+                                           (vec (map map-fn sv))
+
+                                           :else sv))]
                             (if (deflated? k)
                               (inf-recur (rest ks)
                                          (assoc-x (dissoc m k)
