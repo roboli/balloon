@@ -76,14 +76,17 @@
       false)))
 
 (defn- deflated-key->path [delimiter]
-  (fn [k]
-    (vec (map
-          (fn [s]
-            (if (parseInt? s)
-              (Integer/parseInt s)
-              (keyword s)))
-          (string/split (name k)
-                        (re-pattern (java.util.regex.Pattern/quote delimiter)))))))
+  (let [key->str (if (= delimiter "/") ;; Beware of qualifiers
+                   (fn [k] (subs (str k) 1))
+                   name)]
+    (fn [k]
+      (vec (map
+            (fn [s]
+              (if (parseInt? s)
+                (Integer/parseInt s)
+                (keyword s)))
+            (string/split (key->str k)
+                          (re-pattern (java.util.regex.Pattern/quote delimiter))))))))
 
 (defn- assoc-inth
   "Like assoc-in but conjoins value to a vector if key in path is a number.

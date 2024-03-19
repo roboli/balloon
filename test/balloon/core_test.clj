@@ -86,4 +86,30 @@
       (is (= result {:my-map
                      {:one "one",
                       :any {:arr [[{:a {:b "c"}}]
-                                  {:c [{:d {:f [[{:g {:j "j"}}]]}}]}]}},})))))
+                                  {:c [{:d {:f [[{:g {:j "j"}}]]}}]}]}},}))))
+
+  (testing "Inflating maps with a '/' delimiter"
+    (let [value {:user/id 1
+                 :user/name "Sean"
+                 :user/addressid 2
+                 :address/id 2
+                 :address/street "123 Main St"}
+          result (b/inflate value :delimiter "/")]
+      (is (= result {:user {:id 1
+                            :name "Sean"
+                            :addressid 2}
+                     :address {:id 2
+                               :street "123 Main St"}}))))
+
+  (testing "Inflating maps with qualified keywords"
+    (let [value {:db/user.id 1
+                 :db/user.name "Sean"
+                 :db/user.addressid 2
+                 :db/address.id 2
+                 :db/address.street "123 Main St"}
+          result (b/inflate value)]
+      (is (= result {:user {:id 1
+                            :name "Sean"
+                            :addressid 2}
+                     :address {:id 2
+                               :street "123 Main St"}})))))
