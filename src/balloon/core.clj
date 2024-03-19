@@ -86,7 +86,12 @@
           (string/split (name k)
                         (re-pattern (java.util.regex.Pattern/quote delimiter)))))))
 
-(defn- assoc-inth [form path v]
+(defn- assoc-inth
+  "Like assoc-in but conjoins value to a vector if key in path is a number.
+  Eg:
+  (assoc-in {} [:a 0] 1) => {:a {0 1}}
+  (assoc-inth {} [:a 0] 1) => {:a [1]}"
+  [form path v]
   (let [result (reduce
                 (fn [{:keys [end-path end-form] :as acc} k]
                   (if (keyword? k)
