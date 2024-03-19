@@ -150,18 +150,18 @@
      {}
      dm)))
 
-(defn construct-recur [m ks v]
-  (if (= (count ks) 1)
-    (assoc m (first ks) v)
-    (let [k  (first ks)
+(defn construct-recur [m path v]
+  (if (= (count path) 1)
+    (assoc m (first path) v)
+    (let [k  (first path)
           mv (get m k)]
       (if (map? mv)
         (assoc m
                k
-               (construct-recur mv (rest ks) v))
+               (construct-recur mv (rest path) v))
         (assoc m
                k
-               (construct-recur {} (rest ks) v))))))
+               (construct-recur {} (rest path) v))))))
 
 (defn inflate-recur [ks m]
   (if (empty? ks)
