@@ -8,7 +8,7 @@ Deflate (flat) a nested map into one level deep or inflate (unflat) a one level 
 
 For installation, add the following dependency to your `project.clj` file:
 
-    [org.clojars.roboli/balloon "0.1.0"]
+    [org.clojars.roboli/balloon "0.2.1"]
 
 Import namespace, example:
 
