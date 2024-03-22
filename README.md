@@ -1,6 +1,8 @@
 # balloon
 
-Deflate (flat) a nested map into one level deep or inflate (unflat) a one level into a nested map using delimited keys.
+### Deflate/Inflate (Flat/Unflat) your Clojure/Script maps
+
+Deflate a nested map into one level deep or inflate a one level into a nested map using delimited keys.
 
 *Inspired by these [guys](https://github.com/hughsk/flat).*
 
@@ -8,7 +10,7 @@ Deflate (flat) a nested map into one level deep or inflate (unflat) a one level 
 
 For installation, add the following dependency to your `project.clj` file:
 
-    [org.clojars.roboli/balloon "0.2.1"]
+    [org.clojars.roboli/balloon "0.2.2"]
 
 Import namespace, example:
 
