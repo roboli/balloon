@@ -106,7 +106,6 @@ Examples:
 ```
 
 * `:delimiter`: Use different delimiter to unflat the hash-map delimited keys, defaults to `.`.
-* `:pre-deflate`: Run deflate on hash-map to guarantee is fully normalized before running unflat process, defaults to `true`.
 * `:hash-map`: Unflat indexes in delimited keys as hash-map, not as a collection, defaults to `false`.
 
 Examples:
