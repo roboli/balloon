@@ -1,6 +1,6 @@
 # balloon
 
-**Deflate/Inflate (Flat/Unflat) your Clojure/Script maps**
+### Deflate/Inflate (Flat/Unflat) your Clojure/Script maps
 
 Deflate a nested map into one level deep or inflate a one level into a nested map using delimited keys.
 
