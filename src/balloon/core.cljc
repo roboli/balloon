@@ -66,14 +66,16 @@
 
 (defn- deflated-key? [delimiter]
   (fn [k]
-    (string/includes? k delimiter)))
+    (string/includes? #?(:clj k
+                         :cljs (str k)) delimiter)))
 
 (defn- parseInt? [s]
-  (try
-    (Integer/parseInt s)
-    true
-    (catch Exception e
-      false)))
+  #?(:clj (try
+            (Integer/parseInt s)
+            true
+            (catch Exception e
+              false))
+     :cljs (not (js/isNaN (js/parseInt s)))))
 
 (defn- deflated-key->path [delimiter]
   (let [key->str (if (= delimiter "/") ;; Beware of qualifiers
@@ -83,10 +85,12 @@
       (vec (map
             (fn [s]
               (if (parseInt? s)
-                (Integer/parseInt s)
+                 #?(:clj (Integer/parseInt s)
+                    :cljs (js/parseInt s))
                 (keyword s)))
             (string/split (key->str k)
-                          (re-pattern (java.util.regex.Pattern/quote delimiter))))))))
+                          #?(:clj (re-pattern (java.util.regex.Pattern/quote delimiter))
+                             :cljs delimiter)))))))
 
 (defn- assoc-inth
   "Like assoc-in but conjoins value to a vector if key in path is a number.
