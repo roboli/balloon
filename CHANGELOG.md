@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file. This change
 
 ## [Unreleased]
 
+## [0.2.2] - 2024-03-22
+* Add support for CLJS
+
 ## [0.2.1] - 2024-03-20
 * Improve keys->deflated-key function legibility
 * Allow the / delimiter
@@ -15,7 +18,8 @@ All notable changes to this project will be documented in this file. This change
 
 ## [0.1.0] - 2023-12-20
 
-[Unreleased]: https://github.com/roboli/balloon/compare/0.2.1...HEAD
+[Unreleased]: https://github.com/roboli/balloon/compare/0.2.2...HEAD
+[0.2.2]: https://github.com/roboli/balloon/compare/0.2.1..0.2.2
 [0.2.1]: https://github.com/roboli/balloon/compare/0.2.0..0.2.1
 [0.2.0]: https://github.com/roboli/balloon/compare/0.1.0..0.2.0
 [0.1.0]: https://github.com/roboli/balloon/releases/tag/0.1.0
