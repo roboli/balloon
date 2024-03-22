@@ -1,5 +1,7 @@
 # balloon
 
+[![Clojars Project](https://img.shields.io/clojars/v/org.clojars.roboli/balloon.svg)](https://clojars.org/org.clojars.roboli/balloon)
+
 ### Deflate/Inflate (Flat/Unflat) your Clojure/Script maps
 
 Deflate a nested map into one level deep or inflate a one level into a nested map using delimited keys.
@@ -10,7 +12,11 @@ Deflate a nested map into one level deep or inflate a one level into a nested ma
 
 For installation, add the following dependency to your `project.clj` file:
 
-    [org.clojars.roboli/balloon "0.2.2"]
+    [org.clojars.roboli/balloon "x.y.z"]
+
+Or your `deps.edn`:
+
+	org.clojars.roboli/balloon {:mvn/version "x.y.z"}
 
 Import namespace, example:
 
