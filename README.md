@@ -77,7 +77,7 @@ Where options:
 Examples:
 
 ```clojure
-;; Using :delimiter
+;; Using :delimiter "*"
 
 (b/deflate {:id 3
             :profile {:first-name "Lucas"
@@ -92,6 +92,22 @@ Examples:
 ;;  :profile*last-last "Arts",
 ;;  :location*country "USA",
 ;;  :location*city "LA"}
+
+;; Or using :delimiter "/"
+
+(b/deflate {:id 3
+            :profile {:first-name "Lucas"
+                      :last-last "Arts"}
+            :location {:country "USA"
+                       :city "LA"}}
+    :delimiter "/")
+
+;;=>
+;; {:id 3,
+;;  :profile/first-name "Lucas",
+;;  :profile/last-last "Arts",
+;;  :location/country "USA",
+;;  :location/city "LA"}
 
 
 ;; Using :keep-coll
@@ -119,14 +135,14 @@ Examples:
 Examples:
 
 ```clojure
-;; Using :delimiter
+;; Using :delimiter "/"
 
 (b/inflate {:id 3,
-            :profile*first-name "Lucas",
-            :profile*last-last "Arts",
-            :location*country "USA",
-            :location*city "LA"}
-    :delimiter "*")
+            :profile/first-name "Lucas",
+            :profile/last-last "Arts",
+            :location/country "USA",
+            :location/city "LA"}
+    :delimiter "/")
 
 ;;=>
 ;; {:id 3,

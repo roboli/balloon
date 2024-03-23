@@ -5,6 +5,11 @@
 ;; deflate
 ;;
 
+(defn- key->str [delimiter]
+  (if (= delimiter "/") ;; Beware of qualifiers
+    (fn [k] (subs (str k) 1))
+    name))
+
 (declare deflate-map)
 
 (defn- index->key [index]
@@ -12,10 +17,11 @@
 
 (defn- keys->deflated-key
   [delimiter]
-  (fn [ks]
-    (->> (for [k ks] (if (number? k) (str k) (name k)))
-         (string/join delimiter)
-         (keyword))))
+  (let [k->str (key->str delimiter)]
+    (fn [ks]
+      (->> (for [k ks] (if (number? k) (str k) (k->str k)))
+           (string/join delimiter)
+           (keyword nil)))))
 
 (defn- deflate-map [convert inflated-map opts]
   (let [dfmap (fn dfmap [m ks]
@@ -78,9 +84,7 @@
      :cljs (not (js/isNaN (js/parseInt s)))))
 
 (defn- deflated-key->path [delimiter]
-  (let [key->str (if (= delimiter "/") ;; Beware of qualifiers
-                   (fn [k] (subs (str k) 1))
-                   name)]
+  (let [k->str (key->str delimiter)]
     (fn [k]
       (vec (map
             (fn [s]
@@ -88,7 +92,7 @@
                  #?(:clj (Integer/parseInt s)
                     :cljs (js/parseInt s))
                 (keyword s)))
-            (string/split (key->str k)
+            (string/split (k->str k)
                           #?(:clj (re-pattern (java.util.regex.Pattern/quote delimiter))
                              :cljs delimiter)))))))
 
